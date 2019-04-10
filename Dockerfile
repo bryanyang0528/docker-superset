@@ -58,6 +58,7 @@ RUN useradd -U -m superset && \
         sqlalchemy-clickhouse==0.1.5.post0 \
         sqlalchemy-redshift==0.7.1 \
         PyAthenaJDBC==2.0.4 \
+        requests-oauthlib==1.1.0 \
         superset==${SUPERSET_VERSION} && \
     rm requirements.txt
 
