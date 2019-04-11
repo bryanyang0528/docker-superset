@@ -40,11 +40,10 @@ RUN useradd -U -m superset && \
     curl https://raw.githubusercontent.com/${SUPERSET_REPO}/${SUPERSET_VERSION}/requirements.txt -o requirements.txt && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir \
-        Werkzeug==0.15.2 \
         flask-cors==3.0.3 \
         flask-mail==0.9.1 \
         flask-oauth==0.12 \
-        flask_oauthlib==0.9.5 \
+        flask_oauthlib==0.9.3 \
         gevent==1.2.2 \
         impyla==0.14.0 \
         infi.clickhouse-orm==1.0.2 \
@@ -58,7 +57,6 @@ RUN useradd -U -m superset && \
         sqlalchemy-clickhouse==0.1.5.post0 \
         sqlalchemy-redshift==0.7.1 \
         PyAthenaJDBC==2.0.4 \
-        requests-oauthlib==1.1.0 \
         superset==${SUPERSET_VERSION} && \
     rm requirements.txt
 
