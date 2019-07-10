@@ -24,10 +24,11 @@ RUN useradd -U -m superset && \
     chown -R superset:superset /etc/superset && \
     chown -R superset:superset ${SUPERSET_HOME} && \
     apt-get update && \
-    apt-get install -y \
+    apt-get install -y --allow-unauthenticated \
         build-essential \
         curl \
         default-libmysqlclient-dev \
+        openjdk-8-jdk \
         freetds-bin \
         freetds-dev \
         libffi-dev \
@@ -59,6 +60,8 @@ RUN useradd -U -m superset && \
         sqlalchemy-clickhouse==0.1.5.post0 \
         sqlalchemy-redshift==0.7.1 \
         PyAthenaJDBC==2.0.4 \
+        oauthlib==2.1.0 \
+        requests-oauthlib==1.1.0 \
         werkzeug==0.14.1 && \
     pip install superset==${SUPERSET_VERSION}
 
