@@ -23,7 +23,7 @@ RUN useradd -U -m superset && \
     mkdir ${SUPERSET_HOME} && \
     chown -R superset:superset /etc/superset && \
     chown -R superset:superset ${SUPERSET_HOME} && \
-    apt-get update && \
+    apt-get -o Acquire::Check-Valid-Until=false update && \
     apt-get install -y --allow-unauthenticated \
         build-essential \
         curl \
@@ -62,7 +62,9 @@ RUN useradd -U -m superset && \
         PyAthenaJDBC==2.0.4 \
         oauthlib==2.1.0 \
         requests-oauthlib==1.1.0 \
-        werkzeug==0.14.1 && \
+        werkzeug==0.14.1 \
+        requests==2.20.0 \
+        gsheetsdb[all] && \
     pip install superset==${SUPERSET_VERSION}
 
 # Configure Filesystem
