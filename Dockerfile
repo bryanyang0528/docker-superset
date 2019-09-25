@@ -1,7 +1,7 @@
-FROM python:3.6
+FROM python:3.7
 
 # Superset version
-ARG SUPERSET_VERSION=0.29.0rc7
+ARG SUPERSET_VERSION=0.30
 
 # Configure environment
 ENV GUNICORN_BIND=0.0.0.0:8088 \
@@ -23,47 +23,53 @@ RUN useradd -U -m superset && \
     mkdir ${SUPERSET_HOME} && \
     chown -R superset:superset /etc/superset && \
     chown -R superset:superset ${SUPERSET_HOME} && \
-    apt-get -o Acquire::Check-Valid-Until=false update && \
-    apt-get install -y --allow-unauthenticated \
+    apt-get -o Acquire::Check-Valid-Until=false update &&\
+    apt-get -y upgrade
+
+RUN apt-get install -y --allow-unauthenticated \
         build-essential \
+        python3.7-dev \
+        python-pip \
         curl \
         default-libmysqlclient-dev \
-        openjdk-8-jdk \
+        openjdk-11-jdk \
         freetds-bin \
         freetds-dev \
         libffi-dev \
         libldap2-dev \
         libpq-dev \
         libsasl2-dev \
-        libssl1.0 && \
+        libssl-dev && \
     apt-get clean && \
-    rm -r /var/lib/apt/lists/* && \
-    curl https://raw.githubusercontent.com/${SUPERSET_REPO}/${SUPERSET_VERSION}/requirements.txt -o requirements.txt && \
+    rm -r /var/lib/apt/lists/*
+
+RUN curl https://raw.githubusercontent.com/${SUPERSET_REPO}/${SUPERSET_VERSION}/requirements.txt -o requirements.txt && \
     pip install --no-cache-dir -r requirements.txt && \
-    rm requirements.txt && \
-    pip install --no-cache-dir \
-        flask-cors==3.0.3 \
-        flask-mail==0.9.1 \
-        flask-oauth==0.12 \
-        flask_oauthlib==0.9.5 \
-        gevent==1.2.2 \
-        impyla==0.14.0 \
-        infi.clickhouse-orm==1.0.2 \
-        mysqlclient==1.3.7 \
-        psycopg2==2.6.1 \
-        pyathena==1.2.5 \
-        pybigquery==0.4.10 \
-        pyhive==0.5.1 \
-        pyldap==2.4.28 \
-        pymssql==2.1.3 \
-        redis==2.10.5 \
-        sqlalchemy-clickhouse==0.1.5.post0 \
-        sqlalchemy-redshift==0.7.1 \
-        PyAthenaJDBC==2.0.4 \
-        oauthlib==2.1.0 \
-        requests-oauthlib==1.1.0 \
-        werkzeug==0.14.1 \
-        requests==2.20.0 \
+    rm requirements.txt
+
+RUN  pip install --no-cache-dir \
+        flask-cors \
+        flask-mail \
+        flask-oauth \
+        flask_oauthlib \
+        gevent \
+        impyla  \
+        infi.clickhouse-orm \
+        mysqlclient \
+        psycopg2 \
+        pyathena \
+        pybigquery \
+        pyhive \
+        pyldap \
+        pymssql \
+        redis \
+        sqlalchemy-clickhouse \
+        sqlalchemy-redshift \
+        PyAthenaJDBC \
+        oauthlib \
+        requests-oauthlib \
+        werkzeug \
+        requests \
         gsheetsdb[all] && \
     pip install superset==${SUPERSET_VERSION}
 
