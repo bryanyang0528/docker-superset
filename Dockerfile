@@ -27,7 +27,6 @@ FROM python:${PYTHON_VERSION} AS dist
 ENV SUPERSET_HOME=/var/lib/superset/
 WORKDIR ${SUPERSET_HOME}
 COPY --from=build ${SUPERSET_HOME} .
-COPY requirements-db.txt .
 
 # Create package to install
 RUN python setup.py sdist && \
@@ -76,8 +75,9 @@ RUN apt-get install -y \
         libsasl2-dev \
         libsasl2-modules-gssapi-mit \
         libssl1.0 && \
-    apt-get clean && \
-    tar xzf superset.tar.gz && \
+    apt-get clean
+COPY requirements-db.txt .
+RUN tar xzf superset.tar.gz && \
     pip install dist/*.tar.gz -r requirements.txt -r requirements-db.txt && \
     rm -rf ./*
 
