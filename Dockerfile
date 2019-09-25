@@ -1,5 +1,5 @@
 ARG NODE_VERSION=latest
-ARG PYTHON_VERSION=latest
+ARG PYTHON_VERSION=3.6
 
 # --- Build assets with NodeJS
 
@@ -60,12 +60,15 @@ RUN useradd -U -m superset && \
     chown -R superset:superset /etc/superset && \
     chown -R superset:superset ${SUPERSET_HOME} && \
     apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install -y \
         build-essential \
         curl \
         default-libmysqlclient-dev \
+        openjdk-11-jre \
         freetds-bin \
         freetds-dev \
+        libevent-dev \
         libffi-dev \
         libldap2-dev \
         libpq-dev \
